@@ -1,0 +1,30 @@
+
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./client:/app
+    env_file:
+      - .env
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+       - "3000:3000" # Assuming server runs on 3000
+    volumes:
+      - ./server:/app
+      - /app/node_modules # Important volume for node_modules
+    env_file:
+      - .env
+
+# You can uncomment and add networks or volumes sections here if needed,
+# but NO Dockerfile instructions (FROM, RUN, COPY, etc.)
+# networks:
+#   ...
