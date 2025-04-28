@@ -1,0 +1,21 @@
+# Use a base image with Node.js
+FROM node:lts-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY server/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY server/ ./
+
+# Expose the port the Node.js server runs on (assuming it listens on a port)
+# You might need to check your server's code or package.json scripts for the exact port
+EXPOSE 3000 # Assuming the server runs on port 3000 internally
+
+# Command to run the application
+CMD ["npm", "start"]
