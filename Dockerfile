@@ -44,7 +44,7 @@ RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommend
     libfribidi0 \
     libpixman-1-0 \
     libgtk-3-0 \
-    libgconf-2-4 \  # <<< ADDED Backslash here
+#   libgconf-2-4 \ # <<< REMOVED THIS PACKAGE
     # Clean up apt cache after successful install
     && rm -rf /var/lib/apt/lists/*
 
