@@ -1,49 +1,17 @@
-# Use a Node.js base image that includes Debian, suitable for installing Python and Chromium deps.
+# Use a Node.js base image that includes Debian, suitable for installing Python.
 # Bullseye is newer than Buster.
 FROM node:lts-bullseye-slim
 
 # Set environment variables for non-interactive apt-get
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install essential tools, Python3, pip, supervisor, and Chromium + dependencies
+# Install essential tools: Python3, pip, and supervisor
 RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommends \
     # Python & Pip
     python3 \
     python3-pip \
     # Supervisor
     supervisor \
-    # Chromium and its dependencies (from your server Dockerfile)
-    chromium \
-    fonts-freefont-ttf \
-    libgbm-dev \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libdrm-dev \
-    libxkbcommon-dev \
-    libatspi2.0-0 \
-    libnss3 \
-    libxrandr2 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libexpat1 \
-    libxcb1 \
-    libx11-6 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libcairo2 \
-    libfontconfig1 \
-    libjpeg62-turbo \
-    libpng16-16 \
-    libwebp7 \ # Note: libwebp6 might be libwebp7 on Bullseye
-    libharfbuzz0b \
-    libfreetype6 \
-    libthai0 \
-    libpangoft2-1.0-0 \
-    libfribidi0 \
-    libpixman-1-0 # <<< REMOVED Backslash here
-#   libgtk-3-0 \ # <<< REMOVED THIS PACKAGE
-#   libgconf-2-4 \ # <<< ALREADY REMOVED
     # Clean up apt cache after successful install
     && rm -rf /var/lib/apt/lists/*
 
@@ -65,6 +33,10 @@ COPY ./server/package*.json /app/server/
 WORKDIR /app/server
 # Install Node.js dependencies
 # Consider adding --omit=dev if you don't need devDependencies in production
+# Note: If 'npm install' tries to download Puppeteer's browser, it might fail
+# or download a version incompatible with this slim image without browser dependencies.
+# You might need to configure Puppeteer to skip browser download if possible,
+# or handle potential errors during npm install if it includes Puppeteer.
 RUN npm install
 # Copy the rest of the server application code
 COPY ./server /app/server
@@ -75,13 +47,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # --- Environment Variables ---
 # Copy the .env file (optional, Koyeb might inject env vars directly)
-# If you rely on Koyeb's env var injection, you can skip this line.
 COPY .env /app/.env
 # Note: Both processes run by supervisor will inherit environment variables
 # set in the container (either via Koyeb or this Dockerfile).
-# If client and server need DIFFERENT values for the SAME variable name,
-# you might need to adjust the supervisord.conf [program:...] sections
-# to include specific `environment=KEY="value",OTHER="value"` lines.
 
 # Reset working directory (optional, good practice)
 WORKDIR /app
