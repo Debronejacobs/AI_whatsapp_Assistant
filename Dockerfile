@@ -32,8 +32,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfontconfig1 \
     libgbm1 \
     libgcc1 \
-    libglib2.0-0 \ # <--- Provides libgobject-2.0.so.0
-    libgtk-3-0 \   # <--- Adding GTK back as it's often needed
+    libglib2.0-0 \ 
+    libgtk-3-0 \
     libnspr4 \
     libnss3 \
     libpango-1.0-0 \
