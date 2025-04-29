@@ -36,7 +36,6 @@ RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommend
     libjpeg62-turbo \
     libpng16-16 \
     libwebp7 \ # Note: libwebp6 might be libwebp7 on Bullseye
-    libglib2.0-0 \
     libharfbuzz0b \
     libfreetype6 \
     libthai0 \
