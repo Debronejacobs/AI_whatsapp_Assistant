@@ -42,9 +42,9 @@ RUN apt-get clean && apt-get update && apt-get install -y --no-install-recommend
     libthai0 \
     libpangoft2-1.0-0 \
     libfribidi0 \
-    libpixman-1-0 \
-    libgtk-3-0 \
-#   libgconf-2-4 \ # <<< REMOVED THIS PACKAGE
+    libpixman-1-0 # <<< REMOVED Backslash here
+#   libgtk-3-0 \ # <<< REMOVED THIS PACKAGE
+#   libgconf-2-4 \ # <<< ALREADY REMOVED
     # Clean up apt cache after successful install
     && rm -rf /var/lib/apt/lists/*
 
