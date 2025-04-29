@@ -4,11 +4,6 @@ FROM node:lts-bullseye-slim
 
 # Set environment variables for non-interactive apt-get
 ENV DEBIAN_FRONTEND=noninteractive
-# Tell Puppeteer to skip downloading Chrome during npm install, as we install it via apt
-# ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-# ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-# Note: Let's try *without* skipping first, as the error log shows it *is* using the downloaded one.
-# If it fails finding the system one, we can uncomment these lines.
 
 # Install essential tools, Python3, pip, supervisor, and Chromium + dependencies
 # Trying a curated list known to work for Puppeteer on Debian
@@ -19,7 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Supervisor
     supervisor \
     # Minimal Dependencies for Puppeteer-downloaded Chromium
-    # Based on https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-doesnt-launch-on-linux
     ca-certificates \
     fonts-liberation \
     libasound2 \
@@ -32,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfontconfig1 \
     libgbm1 \
     libgcc1 \
-    libglib2.0-0 \ 
+    libglib2.0-0 \
     libgtk-3-0 \
     libnspr4 \
     libnss3 \
@@ -76,7 +70,8 @@ COPY ./server /app/server
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # --- Environment Variables ---
-COPY .env /app/.env # Assuming client reads URL from here? Modify .env or code.
+# REMOVED: COPY .env /app/.env
+# Environment variables should be injected by the deployment platform (Koyeb).
 
 WORKDIR /app
 
