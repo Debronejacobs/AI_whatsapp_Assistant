@@ -1,4 +1,3 @@
-Alright Jacob — let’s craft a clean, professional README that captures your project:
 
 ---
 
@@ -8,7 +7,7 @@ An end-to-end **WhatsApp AI Agent** that enables automated, intelligent conversa
 
 ---
 
-## 🧠 Overview
+Overview
 
 This project bridges WhatsApp with an AI-powered conversational agent, combining:
 
@@ -22,7 +21,7 @@ The system is fully containerized for seamless deployment and scalability.
 
 ---
 
-## 🚀 Features
+##  Features
 
 * ✅ Full WhatsApp integration using reverse-engineered API.
 * ✅ AI conversations powered by Gemini AI.
